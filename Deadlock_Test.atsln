@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Deadlock_Test", "Deadlock_Test\Deadlock_Test.cproj", "{E35E71C3-54CF-4188-90D2-2F0529E68863}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E35E71C3-54CF-4188-90D2-2F0529E68863}.Debug|AVR.ActiveCfg = Debug|AVR
+		{E35E71C3-54CF-4188-90D2-2F0529E68863}.Debug|AVR.Build.0 = Debug|AVR
+		{E35E71C3-54CF-4188-90D2-2F0529E68863}.Release|AVR.ActiveCfg = Release|AVR
+		{E35E71C3-54CF-4188-90D2-2F0529E68863}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
