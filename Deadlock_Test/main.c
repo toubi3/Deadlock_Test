@@ -66,12 +66,13 @@ int main(void)
 void vT1(void *pvParameters) {	
 	uint32_t cTaskCounter = 0;
 	for(;;) {
-		if(xSemaphoreTake(data2Key, 5 / portTICK_RATE_MS)) { //Lock P-Resource data2			
-			vTaskDelay(101 / portTICK_RATE_MS);
+		if(xSemaphoreTake(data2Key, 5 / portTICK_RATE_MS)) //Lock P-Resource data2	
+		{		
 			PORTF.OUTCLR = 0x01;
 			cTaskCounter++;
 			data2 = cTaskCounter;
-			if(xSemaphoreTake(data1Key, 5 / portTICK_RATE_MS)) { //Lock P-Resource data1
+			if(xSemaphoreTake(data1Key, 5 / portTICK_RATE_MS))  //Lock P-Resource data1
+			{
 				vDisplayWriteStringAtPos(0,0,"Task1Counter: %d", cTaskCounter);
 				vDisplayWriteStringAtPos(1,0,"d1: %d / ", data1);
 				vDisplayWriteStringAtPos(1,12, "d2:%d", data2);
@@ -79,26 +80,30 @@ void vT1(void *pvParameters) {
 			xSemaphoreGive(data1Key); //Unlock data1
 			xSemaphoreGive(data2Key); //Unlock data2
 			PORTF.OUTSET = 0x01;
+			vTaskDelay(101 / portTICK_RATE_MS); // Delay has to be at the end of for loop, otherwise deadlock
 		}
 	}
 }
 
 void vT2(void *pvParameters) {
 	uint32_t dTaskCounter = 0;
-	for(;;) {
-		if(xSemaphoreTake(data1Key, 5 / portTICK_RATE_MS)) { //Lock Resource data1
-			vTaskDelay(100 / portTICK_RATE_MS);		
-			PORTF.OUTCLR = 0x02;
-			dTaskCounter++;
-			data1 = dTaskCounter;
-			if(xSemaphoreTake(data2Key, 5 / portTICK_RATE_MS)) { //Lock Resource data2
-				vDisplayWriteStringAtPos(2,0,"Task2Counter: %d", dTaskCounter);
-				vDisplayWriteStringAtPos(3,0,"d1: %d / ", data1);
-				vDisplayWriteStringAtPos(3,12, "d2:%d", data2);
-			}
+	for(;;) 
+		{
+		if(xSemaphoreTake(data1Key, 5 / portTICK_RATE_MS)) //Lock Resource data1
+			 {	
+				PORTF.OUTCLR = 0x02;
+				dTaskCounter++;
+				data1 = dTaskCounter;
+				if(xSemaphoreTake(data2Key, 5 / portTICK_RATE_MS))  //Lock Resource data2
+				{
+					vDisplayWriteStringAtPos(2,0,"Task2Counter: %d", dTaskCounter);
+					vDisplayWriteStringAtPos(3,0,"d1: %d / ", data1);
+					vDisplayWriteStringAtPos(3,12, "d2:%d", data2);
+				}
 			xSemaphoreGive(data1Key); //Unlock data1
 			xSemaphoreGive(data2Key); //Unlock data2
 			PORTF.OUTSET = 0x02;
+			vTaskDelay(100 / portTICK_RATE_MS);	// Delay has to be at the end of for loop, otherwise deadlock
 		}
 	}
 }
